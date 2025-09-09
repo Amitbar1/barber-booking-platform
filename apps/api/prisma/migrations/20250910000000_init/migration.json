@@ -1,0 +1,57 @@
+{
+  "version": "5.22.0",
+  "steps": [
+    {
+      "tag": "CreateTable",
+      "table": "users"
+    },
+    {
+      "tag": "CreateTable", 
+      "table": "salons"
+    },
+    {
+      "tag": "CreateTable",
+      "table": "services"
+    },
+    {
+      "tag": "CreateTable",
+      "table": "barbers"
+    },
+    {
+      "tag": "CreateTable",
+      "table": "customers"
+    },
+    {
+      "tag": "CreateTable",
+      "table": "bookings"
+    },
+    {
+      "tag": "CreateTable",
+      "table": "workingHours"
+    },
+    {
+      "tag": "CreateTable",
+      "table": "otpCodes"
+    },
+    {
+      "tag": "CreateTable",
+      "table": "bookingHolds"
+    },
+    {
+      "tag": "CreateTable",
+      "table": "manageTokens"
+    },
+    {
+      "tag": "CreateEnum",
+      "name": "UserRole"
+    },
+    {
+      "tag": "CreateEnum",
+      "name": "BookingStatus"
+    },
+    {
+      "tag": "CreateEnum",
+      "name": "HoldStatus"
+    }
+  ]
+}
