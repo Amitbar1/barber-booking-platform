@@ -27,7 +27,6 @@ export default [
       ],
       '@typescript-eslint/no-unused-vars': ['error', { argsIgnorePattern: '^_' }],
       '@typescript-eslint/no-explicit-any': 'warn',
-      '@typescript-eslint/prefer-const': 'error',
     },
   },
 ]
