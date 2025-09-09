@@ -51,7 +51,7 @@ export const authenticateToken = async (req: Request, res: Response, next: NextF
     req.user = {
       id: user.id,
       email: user.email,
-      role: user.role,
+      role: user.role.toString(),
       salonId: user.salons[0]?.id
     }
 

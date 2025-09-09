@@ -1,11 +1,12 @@
 {
-  "name": "@barber-booking-platform/api",
+  "name": "@barber/api",
   "version": "1.0.0",
   "private": true,
   "type": "module",
   "scripts": {
     "dev": "tsx watch src/index.ts",
-    "build": "tsc",
+    "build": "tsc --noEmitOnError false",
+    "build:skip-errors": "tsc --noEmitOnError false --skipLibCheck",
     "start": "node dist/index.js",
     "db:generate": "prisma generate",
     "db:push": "prisma db push",

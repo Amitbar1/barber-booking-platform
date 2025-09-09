@@ -1,5 +1,8 @@
 {
   "version": 2,
+  "buildCommand": "npm ci && npm run build",
+  "outputDirectory": "apps/web/dist",
+  "installCommand": "npm ci",
   "builds": [
     {
       "src": "apps/web/package.json",
@@ -7,17 +10,9 @@
       "config": {
         "distDir": "dist"
       }
-    },
-    {
-      "src": "apps/api/src/index.ts",
-      "use": "@vercel/node"
     }
   ],
   "routes": [
-    {
-      "src": "/api/(.*)",
-      "dest": "apps/api/src/index.ts"
-    },
     {
       "src": "/(.*)",
       "dest": "apps/web/dist/$1"

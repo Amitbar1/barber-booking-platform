@@ -89,23 +89,29 @@ app.use((err: unknown, req: express.Request, res: express.Response, _next: expre
   // eslint-disable-next-line no-console
   console.error('Error:', err)
   
-  if (err.type === 'entity.parse.failed') {
-    return res.status(400).json({
-      error: 'Invalid JSON',
-      message: 'The request body contains invalid JSON'
-    })
+  if (err && typeof err === 'object' && 'type' in err) {
+    if (err.type === 'entity.parse.failed') {
+      return res.status(400).json({
+        error: 'Invalid JSON',
+        message: 'The request body contains invalid JSON'
+      })
+    }
+
+    if (err.type === 'entity.too.large') {
+      return res.status(413).json({
+        error: 'Payload too large',
+        message: 'The request body is too large'
+      })
+    }
   }
 
-  if (err.type === 'entity.too.large') {
-    return res.status(413).json({
-      error: 'Payload too large',
-      message: 'The request body is too large'
-    })
-  }
+  const status = (err && typeof err === 'object' && 'status' in err) ? (err.status as number) : 500
+  const message = (err && typeof err === 'object' && 'message' in err) ? (err.message as string) : 'Internal Server Error'
+  const stack = (err && typeof err === 'object' && 'stack' in err) ? (err.stack as string) : undefined
 
-  res.status(err.status || 500).json({
-    error: err.message || 'Internal Server Error',
-    ...(process.env.NODE_ENV === 'development' && { stack: err.stack })
+  res.status(status).json({
+    error: message,
+    ...(process.env.NODE_ENV === 'development' && stack && { stack })
   })
 })
 

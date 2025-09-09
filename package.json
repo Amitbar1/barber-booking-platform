@@ -1,7 +1,7 @@
 {
-  "name": "barber-booking-platform",
+  "name": "barber",
   "version": "1.0.0",
-  "description": "פלטפורמת ניהול תורים מתקדמת למספרות גברים",
+  "description": "פלטפורמת ניהול תורים מתקדמת למספרות",
   "private": true,
   "workspaces": [
     "apps/*",

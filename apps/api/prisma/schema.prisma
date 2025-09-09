@@ -1,4 +1,4 @@
-// Padel Pro Israel - Booking Platform Schema
+// Barber - Booking Platform Schema
 // learn more about it in the docs: https://pris.ly/d/prisma-schema
 
 generator client {

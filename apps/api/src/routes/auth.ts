@@ -2,10 +2,12 @@ import { Router } from 'express'
 import bcrypt from 'bcryptjs'
 import jwt from 'jsonwebtoken'
 import Joi from 'joi'
+import { PrismaClient } from '@prisma/client'
 import { validateRequest } from '../middleware/validation.js'
 import { authenticateToken } from '../middleware/auth.js'
 
 const router = Router()
+const prisma = new PrismaClient()
 
 // Validation schemas
 const registerSchema = Joi.object({
@@ -26,7 +28,7 @@ router.post('/register', validateRequest(registerSchema), async (req, res) => {
     const { name, email, password, phone } = req.body
 
     // Check if user already exists
-    const existingUser = await req.prisma.user.findUnique({
+    const existingUser = await prisma.user.findUnique({
       where: { email }
     })
 
@@ -41,7 +43,7 @@ router.post('/register', validateRequest(registerSchema), async (req, res) => {
     const hashedPassword = await bcrypt.hash(password, 12)
 
     // Create user
-    const user = await req.prisma.user.create({
+    const user = await prisma.user.create({
       data: {
         name,
         email,
@@ -86,7 +88,7 @@ router.post('/login', validateRequest(loginSchema), async (req, res) => {
     const { email, password } = req.body
 
     // Find user
-    const user = await req.prisma.user.findUnique({
+    const user = await prisma.user.findUnique({
       where: { email },
       include: {
         salons: {
@@ -124,6 +126,7 @@ router.post('/login', validateRequest(loginSchema), async (req, res) => {
     )
 
     // Remove password from response
+    // eslint-disable-next-line @typescript-eslint/no-unused-vars
     const { password: _, ...userWithoutPassword } = user
 
     res.json({
@@ -143,7 +146,7 @@ router.post('/login', validateRequest(loginSchema), async (req, res) => {
 // Get current user
 router.get('/me', authenticateToken, async (req, res) => {
   try {
-    const user = await req.prisma.user.findUnique({
+    const user = await prisma.user.findUnique({
       where: { id: req.user!.id },
       include: {
         salons: {
