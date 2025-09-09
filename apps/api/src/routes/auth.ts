@@ -126,7 +126,7 @@ router.post('/login', validateRequest(loginSchema), async (req, res) => {
     )
 
     // Remove password from response
-    // eslint-disable-next-line @typescript-eslint/no-unused-vars
+     
     const { password: _, ...userWithoutPassword } = user
 
     res.json({
