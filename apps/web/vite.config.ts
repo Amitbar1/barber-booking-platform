@@ -20,13 +20,7 @@ export default defineConfig({
   build: {
     // Optimize for mobile performance
     target: 'es2015',
-    minify: 'terser',
-    terserOptions: {
-      compress: {
-        drop_console: true,
-        drop_debugger: true,
-      },
-    },
+    minify: 'esbuild', // Use esbuild instead of terser to avoid rollup issues
     rollupOptions: {
       output: {
         manualChunks: {
