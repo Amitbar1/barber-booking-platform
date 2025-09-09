@@ -7,13 +7,16 @@ COPY package*.json ./
 COPY apps/api/package*.json ./apps/api/
 
 # Install dependencies
-RUN npm ci --only=production
+RUN npm install
 
 # Copy source code
 COPY apps/api ./apps/api
 
 # Set working directory to API
 WORKDIR /app/apps/api
+
+# Build the application
+RUN npm run build
 
 # Expose port
 EXPOSE 3001
