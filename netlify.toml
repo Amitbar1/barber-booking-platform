@@ -1,11 +1,11 @@
 [build]
   base = "."
-  command = "npm ci && npm run build"
+  command = "npm install && npm run build"
   publish = "apps/web/dist"
 
 [build.environment]
   NODE_VERSION = "20"
-  VITE_API_BASE_URL = "https://your-railway-app.railway.app/api"
+  VITE_API_BASE_URL = "https://barber-api.onrender.com/api"
   NPM_FLAGS = "--production=false"
 
 [[redirects]]
