@@ -130,19 +130,6 @@ const BusinessRegistrationForm = ({ onClose, onSuccess }: BusinessRegistrationFo
     }))
   }
 
-  // Handle working hours change
-  const _handleWorkingHoursChange = (day: string, field: 'open' | 'close' | 'closed', value: any) => {
-    setFormData(prev => ({
-      ...prev,
-      workingHours: {
-        ...prev.workingHours,
-        [day]: {
-          ...prev.workingHours[day],
-          [field]: value
-        }
-      }
-    }))
-  }
 
   // Next step
   const nextStep = () => {

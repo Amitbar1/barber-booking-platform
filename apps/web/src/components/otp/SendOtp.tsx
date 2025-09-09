@@ -10,7 +10,7 @@ interface SendOtpProps {
   onBack: () => void
 }
 
-const SendOtp = ({ customerName, customerPhone, holdId, onOtpSent, onBack }: SendOtpProps) => {
+const SendOtp = ({ customerName, customerPhone, holdId: _holdId, onOtpSent, onBack }: SendOtpProps) => {
   const [isSending, setIsSending] = useState(false)
   const [error, setError] = useState('')
   const [retryAfter, setRetryAfter] = useState(0)

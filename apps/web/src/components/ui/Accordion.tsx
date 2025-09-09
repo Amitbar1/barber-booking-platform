@@ -15,9 +15,9 @@ const Accordion = forwardRef<HTMLDivElement, AccordionProps>(
   ({ 
     className,
     type = 'single',
-    collapsible = true,
+    collapsible: _collapsible = true,
     defaultValue,
-    value,
+    value: _value,
     onValueChange,
     children,
     ...props 
@@ -25,10 +25,10 @@ const Accordion = forwardRef<HTMLDivElement, AccordionProps>(
     const [internalValue, setInternalValue] = useState<string | string[]>(
       defaultValue || (type === 'multiple' ? [] : '')
     )
-    const currentValue = value !== undefined ? value : internalValue
+    const _currentValue = _value !== undefined ? _value : internalValue
 
-    const handleValueChange = (newValue: string | string[]) => {
-      if (value === undefined) {
+    const _handleValueChange = (newValue: string | string[]) => {
+      if (_value === undefined) {
         setInternalValue(newValue)
       }
       onValueChange?.(newValue)
@@ -54,7 +54,7 @@ interface AccordionItemProps extends React.HTMLAttributes<HTMLDivElement> {
 }
 
 const AccordionItem = forwardRef<HTMLDivElement, AccordionItemProps>(
-  ({ className, value, disabled, ...props }, ref) => {
+  ({ className, value: _value, disabled, ...props }, ref) => {
     return (
       <div
         ref={ref}
@@ -77,7 +77,7 @@ interface AccordionTriggerProps extends React.ButtonHTMLAttributes<HTMLButtonEle
 }
 
 const AccordionTrigger = forwardRef<HTMLButtonElement, AccordionTriggerProps>(
-  ({ className, value, active, children, ...props }, ref) => {
+  ({ className, value: _value, active, children, ...props }, ref) => {
     return (
       <button
         ref={ref}

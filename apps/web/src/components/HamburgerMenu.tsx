@@ -19,7 +19,6 @@ interface HamburgerMenuProps {
 }
 
 const HamburgerMenu = ({ isOpen, onClose, currentPage = '' }: HamburgerMenuProps) => {
-  const [_isClosing, _setIsClosing] = useState(false)
 
   // Handle escape key
   useEffect(() => {
