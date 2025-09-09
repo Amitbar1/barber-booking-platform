@@ -75,13 +75,18 @@ jobs:
       run: npm ci
       
     - name: Build API
-      run: cd apps/api && npm run build
+      run: |
+        cd apps/api
+        npm ci
+        npm run build
       env:
         DATABASE_URL: ${{ secrets.DATABASE_URL }}
         JWT_SECRET: ${{ secrets.JWT_SECRET }}
+        NODE_ENV: production
         
     - name: Deploy to Render
       uses: johnbeynon/render-deploy-action@v0.0.8
       with:
         serviceId: ${{ secrets.RENDER_SERVICE_ID }}
         apiKey: ${{ secrets.RENDER_API_KEY }}
+        waitForSuccess: true
