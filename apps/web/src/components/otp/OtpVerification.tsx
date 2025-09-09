@@ -1,6 +1,6 @@
 import { motion } from 'framer-motion'
 import { useState, useEffect, useRef } from 'react'
-import { CheckCircle, ArrowRight, ArrowLeft, Clock, Phone } from 'lucide-react'
+import { CheckCircle, ArrowRight, Clock, Phone } from 'lucide-react'
 
 interface OtpVerificationProps {
   phone: string

@@ -1,6 +1,6 @@
 import { useState, useEffect } from 'react'
 import { useLocation, useNavigate } from 'react-router-dom'
-import { ChevronLeft, ChevronRight, X, Eye, Plus } from 'lucide-react'
+import { X, Eye, Plus } from 'lucide-react'
 
 const PageNavigator = () => {
   const [isOpen, setIsOpen] = useState(false)

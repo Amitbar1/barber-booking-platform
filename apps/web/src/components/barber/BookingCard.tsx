@@ -1,6 +1,6 @@
 import { forwardRef } from 'react'
 import { motion } from 'framer-motion'
-import { Calendar, Clock, User, Scissors, MapPin, Phone } from 'lucide-react'
+import { Calendar, Clock, MapPin, Phone } from 'lucide-react'
 import { clsx } from 'clsx'
 
 interface BookingCardProps extends React.HTMLAttributes<HTMLDivElement> {
