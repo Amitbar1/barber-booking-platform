@@ -6,8 +6,6 @@ import {
   Phone, 
   Mail, 
   MapPin, 
-  Clock, 
-  Upload,
   X,
   Check,
   AlertCircle,
@@ -133,7 +131,7 @@ const BusinessRegistrationForm = ({ onClose, onSuccess }: BusinessRegistrationFo
   }
 
   // Handle working hours change
-  const handleWorkingHoursChange = (day: string, field: 'open' | 'close' | 'closed', value: any) => {
+  const _handleWorkingHoursChange = (day: string, field: 'open' | 'close' | 'closed', value: any) => {
     setFormData(prev => ({
       ...prev,
       workingHours: {

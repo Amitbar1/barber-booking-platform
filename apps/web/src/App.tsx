@@ -1,5 +1,4 @@
 import { Routes, Route } from 'react-router-dom'
-import { motion } from 'framer-motion'
 import { Suspense, lazy } from 'react'
 import PageNavigator from './components/PageNavigator'
 

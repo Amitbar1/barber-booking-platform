@@ -6,9 +6,7 @@ import {
   Eye, 
   Save, 
   RotateCcw,
-  Download,
   Image as ImageIcon,
-  Type,
   Globe,
   Search
 } from 'lucide-react'

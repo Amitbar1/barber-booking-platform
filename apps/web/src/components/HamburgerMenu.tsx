@@ -1,11 +1,9 @@
 import { motion, AnimatePresence } from 'framer-motion'
 import { useState, useEffect } from 'react'
 import { 
-  Menu, 
   X, 
   Home, 
   Calendar, 
-  Users, 
   Scissors, 
   Settings,
   LogOut,
@@ -21,7 +19,7 @@ interface HamburgerMenuProps {
 }
 
 const HamburgerMenu = ({ isOpen, onClose, currentPage = '' }: HamburgerMenuProps) => {
-  const [isClosing, setIsClosing] = useState(false)
+  const [isClosing, _setIsClosing] = useState(false)
 
   // Handle escape key
   useEffect(() => {
