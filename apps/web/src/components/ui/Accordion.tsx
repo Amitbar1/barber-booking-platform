@@ -25,9 +25,9 @@ const Accordion = forwardRef<HTMLDivElement, AccordionProps>(
     const [internalValue, setInternalValue] = useState<string | string[]>(
       defaultValue || (type === 'multiple' ? [] : '')
     )
-    const _currentValue = _value !== undefined ? _value : internalValue
+    const currentValue = _value !== undefined ? _value : internalValue
 
-    const _handleValueChange = (newValue: string | string[]) => {
+    const handleValueChange = (newValue: string | string[]) => {
       if (_value === undefined) {
         setInternalValue(newValue)
       }
@@ -104,10 +104,10 @@ interface AccordionContentProps extends React.HTMLAttributes<HTMLDivElement> {
 }
 
 const AccordionContent = forwardRef<HTMLDivElement, AccordionContentProps>(
-  ({ className, value, active, children, ...props }, ref) => {
+  ({ className, value: _value, active: _active, children, ...props }, ref) => {
     return (
       <AnimatePresence>
-        {active && (
+        {_active && (
           <motion.div
             ref={ref}
             initial={{ height: 0, opacity: 0 }}

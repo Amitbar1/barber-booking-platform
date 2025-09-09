@@ -1,5 +1,4 @@
 import { forwardRef, useEffect, useRef } from 'react'
-import { motion } from 'framer-motion'
 import { clsx } from 'clsx'
 
 interface ChartProps extends React.HTMLAttributes<HTMLDivElement> {
@@ -25,11 +24,11 @@ const Chart = forwardRef<HTMLDivElement, ChartProps>(
     size = 'md',
     showLegend = true,
     showValues = false,
-    animated = true,
+    animated: _animated = true,
     title,
     description,
     ...props 
-  }, ref) => {
+  }, _ref) => {
     const chartRef = useRef<HTMLCanvasElement>(null)
     const maxValue = Math.max(...data.map(item => item.value))
 

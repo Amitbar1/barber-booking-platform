@@ -23,8 +23,8 @@ const Calendar = forwardRef<HTMLDivElement, CalendarProps>(
     minDate,
     maxDate,
     disabledDates = [],
-    locale = 'he-IL',
-    showWeekNumbers = false,
+    locale: _locale = 'he-IL',
+    showWeekNumbers: _showWeekNumbers = false,
     showToday = true,
     showNavigation = true,
     ...props 
