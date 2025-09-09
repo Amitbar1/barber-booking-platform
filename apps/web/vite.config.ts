@@ -18,23 +18,10 @@ export default defineConfig({
     host: true,
   },
   build: {
-    // Optimize for mobile performance
     target: 'es2015',
-    minify: 'esbuild', // Use esbuild instead of terser to avoid rollup issues
+    minify: false, // Disable minification to avoid rollup issues
     rollupOptions: {
-      output: {
-        manualChunks: {
-          vendor: ['react', 'react-dom'],
-          ui: ['framer-motion', 'lucide-react'],
-          router: ['react-router-dom'],
-        },
-      },
+      external: [], // Don't externalize anything
     },
-    // Increase chunk size warning limit for better mobile performance
-    chunkSizeWarningLimit: 1000,
-  },
-  // Optimize dependencies
-  optimizeDeps: {
-    include: ['react', 'react-dom', 'framer-motion', 'lucide-react', 'react-router-dom'],
   },
 })
