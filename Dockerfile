@@ -10,6 +10,10 @@ WORKDIR /app
 COPY package*.json ./
 COPY apps/api/package*.json ./apps/api/
 COPY apps/web/package*.json ./apps/web/
+COPY apps/web/vite.config.ts ./apps/web/
+COPY apps/web/tsconfig*.json ./apps/web/
+COPY apps/web/tailwind.config.js ./apps/web/
+COPY apps/web/postcss.config.js ./apps/web/
 RUN npm install
 
 # Rebuild the source code only when needed
