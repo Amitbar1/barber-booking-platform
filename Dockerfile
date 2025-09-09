@@ -56,9 +56,6 @@ COPY --from=builder /app/node_modules/@prisma ./node_modules/@prisma/
 WORKDIR /app/apps/api
 RUN npm install --only=production
 
-# Run database migration
-RUN npx prisma migrate deploy
-
 USER nextjs
 
 EXPOSE 3000 3001

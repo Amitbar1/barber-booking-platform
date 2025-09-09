@@ -41,6 +41,19 @@ try {
   process.exit(1)
 }
 
+// Run database migration on startup
+async function runMigrations() {
+  try {
+    console.log('🔄 Running database migrations...')
+    const { execSync } = await import('child_process')
+    execSync('npx prisma migrate deploy', { stdio: 'inherit' })
+    console.log('✅ Database migrations completed')
+  } catch (error) {
+    console.error('❌ Migration failed:', error)
+    // Don't exit, just log the error
+  }
+}
+
 const PORT = process.env.PORT || 3001
 
 // Middleware
@@ -160,10 +173,13 @@ process.on('SIGTERM', async () => {
 })
 
 // Start server
-server.listen(PORT, () => {
+server.listen(PORT, async () => {
   console.log(`🚀 Server running on port ${PORT}`)
   console.log(`📊 Health check: http://localhost:${PORT}/health`)
   console.log(`🌍 Environment: ${process.env.NODE_ENV || 'development'}`)
+  
+  // Run migrations on startup
+  await runMigrations()
   
   // Start cleanup worker (disabled until database is set up)
   // const cleanupWorker = getCleanupWorker(prisma)
