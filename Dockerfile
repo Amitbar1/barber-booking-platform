@@ -7,8 +7,9 @@ RUN apk add --no-cache libc6-compat
 WORKDIR /app
 
 # Install dependencies based on the preferred package manager
-COPY package.json ./
-RUN npm install --only=production
+COPY package*.json ./
+COPY apps/api/package*.json ./apps/api/
+RUN npm install
 
 # Rebuild the source code only when needed
 FROM base AS builder
@@ -31,8 +32,11 @@ RUN adduser --system --uid 1001 nextjs
 # Copy the built application
 COPY --from=builder /app/apps/web/dist ./apps/web/dist
 COPY --from=builder /app/apps/api/dist ./apps/api/dist
-COPY --from=builder /app/apps/api/node_modules ./apps/api/node_modules
 COPY --from=builder /app/apps/api/package.json ./apps/api/package.json
+
+# Install only production dependencies for runtime
+WORKDIR /app/apps/api
+RUN npm install --only=production
 
 USER nextjs
 
