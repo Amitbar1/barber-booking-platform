@@ -31,7 +31,16 @@ const io = new Server(server, {
   }
 })
 
-const prisma = new PrismaClient()
+// Initialize Prisma with error handling
+let prisma: PrismaClient
+try {
+  prisma = new PrismaClient()
+  console.log('✅ Prisma client initialized successfully')
+} catch (error) {
+  console.error('❌ Failed to initialize Prisma client:', error)
+  process.exit(1)
+}
+
 const PORT = process.env.PORT || 3001
 
 // Middleware
@@ -52,12 +61,26 @@ app.use((req, res, next) => {
 })
 
 // Health check endpoint
-app.get('/api/health', (req, res) => {
-  res.json({ 
-    status: 'OK', 
-    timestamp: new Date().toISOString(),
-    uptime: process.uptime()
-  })
+app.get('/api/health', async (req, res) => {
+  try {
+    // Test database connection
+    await prisma.$queryRaw`SELECT 1`
+    
+    res.json({ 
+      status: 'OK', 
+      timestamp: new Date().toISOString(),
+      uptime: process.uptime(),
+      database: 'connected'
+    })
+  } catch (error) {
+    res.status(500).json({ 
+      status: 'ERROR', 
+      timestamp: new Date().toISOString(),
+      uptime: process.uptime(),
+      database: 'disconnected',
+      error: error instanceof Error ? error.message : 'Unknown error'
+    })
+  }
 })
 
 // API Routes

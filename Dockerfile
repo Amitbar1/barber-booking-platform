@@ -25,7 +25,9 @@ COPY . .
 COPY apps/api/prisma ./apps/api/prisma/
 
 # Generate Prisma client
-RUN cd apps/api && npx prisma generate
+WORKDIR /app/apps/api
+RUN npx prisma generate
+WORKDIR /app
 
 # Build the application
 RUN npm run build
@@ -43,6 +45,9 @@ RUN adduser --system --uid 1001 nextjs
 COPY --from=builder /app/apps/web/dist ./apps/web/dist
 COPY --from=builder /app/apps/api/dist ./apps/api/dist
 COPY --from=builder /app/apps/api/package.json ./apps/api/package.json
+COPY --from=builder /app/apps/api/prisma ./apps/api/prisma/
+COPY --from=builder /app/node_modules/.prisma ./node_modules/.prisma/
+COPY --from=builder /app/node_modules/@prisma ./node_modules/@prisma/
 
 # Install only production dependencies for runtime
 WORKDIR /app/apps/api
