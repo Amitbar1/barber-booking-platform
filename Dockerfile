@@ -14,6 +14,7 @@ COPY apps/web/vite.config.ts ./apps/web/
 COPY apps/web/tsconfig*.json ./apps/web/
 COPY apps/web/tailwind.config.js ./apps/web/
 COPY apps/web/postcss.config.js ./apps/web/
+COPY apps/api/prisma ./apps/api/prisma/
 RUN npm install
 
 # Rebuild the source code only when needed
@@ -21,6 +22,10 @@ FROM base AS builder
 WORKDIR /app
 COPY --from=deps /app/node_modules ./node_modules
 COPY . .
+COPY apps/api/prisma ./apps/api/prisma/
+
+# Generate Prisma client
+RUN cd apps/api && npx prisma generate
 
 # Build the application
 RUN npm run build
