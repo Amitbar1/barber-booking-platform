@@ -73,27 +73,20 @@ app.use('/api/manage', manageRoutes)
 
 // Socket.IO connection handling
 io.on('connection', (socket) => {
-  console.log('Client connected:', socket.id)
-
   // Join salon room for real-time updates
   socket.on('join-salon', (salonId: string) => {
     socket.join(`salon-${salonId}`)
-    console.log(`Client ${socket.id} joined salon ${salonId}`)
   })
 
   // Leave salon room
   socket.on('leave-salon', (salonId: string) => {
     socket.leave(`salon-${salonId}`)
-    console.log(`Client ${socket.id} left salon ${salonId}`)
-  })
-
-  socket.on('disconnect', () => {
-    console.log('Client disconnected:', socket.id)
   })
 })
 
 // Error handling middleware
-app.use((err: any, req: express.Request, res: express.Response, next: express.NextFunction) => {
+app.use((err: unknown, req: express.Request, res: express.Response, _next: express.NextFunction) => {
+  // eslint-disable-next-line no-console
   console.error('Error:', err)
   
   if (err.type === 'entity.parse.failed') {

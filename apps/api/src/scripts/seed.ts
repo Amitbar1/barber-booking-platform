@@ -85,7 +85,7 @@ async function main() {
     }
   })
 
-  const service3 = await prisma.service.upsert({
+  await prisma.service.upsert({
     where: { id: 3 },
     update: {},
     create: {
