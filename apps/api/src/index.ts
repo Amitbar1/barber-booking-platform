@@ -165,9 +165,9 @@ server.listen(PORT, () => {
   console.log(`📊 Health check: http://localhost:${PORT}/health`)
   console.log(`🌍 Environment: ${process.env.NODE_ENV || 'development'}`)
   
-  // Start cleanup worker
-  const cleanupWorker = getCleanupWorker(prisma)
-  cleanupWorker.start(1) // Run every minute
+  // Start cleanup worker (disabled until database is set up)
+  // const cleanupWorker = getCleanupWorker(prisma)
+  // cleanupWorker.start(1) // Run every minute
 })
 
 export default app
