@@ -58,25 +58,33 @@ export class InfobipSmsProvider implements SmsProvider {
 }
 
 export class MockSmsService {
+  private provider: SmsProvider
   private prisma: PrismaClient
 
   constructor(prisma: PrismaClient) {
     this.prisma = prisma
+    // Create a mock provider
+    this.provider = {
+      sendSms: async ({ toE164, text }: { toE164: string; text: string }) => {
+        console.log(`📱 Mock SMS sent to ${toE164}: ${text}`)
+        return { providerMessageId: 'mock-' + Date.now() }
+      }
+    }
   }
 
   async sendOtpSms(phone: string, code: string): Promise<{ providerMessageId: string }> {
-    console.log(`📱 Mock SMS sent to ${phone}: קוד האימות שלך הוא ${code}`)
-    return { providerMessageId: 'mock-' + Date.now() }
+    const text = `קוד האימות שלך הוא ${code}. תקף ל־5 דקות. אם לא ביקשת — התעלם.`
+    return this.provider.sendSms({ toE164: phone, text })
   }
 
   async sendBookingConfirmationSms(phone: string, dateTime: string, manageUrl: string): Promise<{ providerMessageId: string }> {
-    console.log(`📱 Mock SMS sent to ${phone}: התור נקבע ל־${dateTime}. ניהול/ביטול: ${manageUrl}`)
-    return { providerMessageId: 'mock-' + Date.now() }
+    const text = `התור נקבע ל־${dateTime}. ניהול/ביטול: ${manageUrl}`
+    return this.provider.sendSms({ toE164: phone, text })
   }
 
   async sendBookingCancellationSms(phone: string, dateTime: string, bookingUrl: string): Promise<{ providerMessageId: string }> {
-    console.log(`📱 Mock SMS sent to ${phone}: התור ל־${dateTime} בוטל לפי בקשתך. לקביעת תור חדש: ${bookingUrl}`)
-    return { providerMessageId: 'mock-' + Date.now() }
+    const text = `התור ל־${dateTime} בוטל לפי בקשתך. לקביעת תור חדש: ${bookingUrl}`
+    return this.provider.sendSms({ toE164: phone, text })
   }
 }
 
@@ -106,7 +114,7 @@ export class SmsService {
 }
 
 // Factory function to create SMS service
-export function createSmsService(prisma: PrismaClient): SmsService {
+export function createSmsService(prisma: PrismaClient): SmsService | MockSmsService {
   const config: SmsConfig = {
     baseUrl: process.env.INFOBIP_BASE_URL || 'https://69drj5.api.infobip.com',
     apiKey: process.env.INFOBIP_API_KEY || '',

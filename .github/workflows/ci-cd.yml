@@ -37,10 +37,10 @@ jobs:
       run: npm install
       
     - name: Run linting
-      run: npm run lint || echo "Linting completed with warnings/errors"
+      run: npm run lint
       
     - name: Run type checking
-      run: npm run type-check || echo "Type checking completed with warnings/errors"
+      run: npm run type-check
       
     - name: Run tests
       run: npm run test

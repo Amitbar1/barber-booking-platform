@@ -86,7 +86,7 @@ io.on('connection', (socket) => {
 
 // Error handling middleware
 app.use((err: unknown, req: express.Request, res: express.Response, _next: express.NextFunction) => {
-  // eslint-disable-next-line no-console
+   
   console.error('Error:', err)
   
   if (err && typeof err === 'object' && 'type' in err) {

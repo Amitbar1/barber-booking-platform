@@ -65,7 +65,7 @@ router.post('/register', validateRequest(registerSchema), async (req, res) => {
     const token = jwt.sign(
       { userId: user.id, email: user.email, role: user.role },
       process.env.JWT_SECRET!,
-      { expiresIn: process.env.JWT_EXPIRES_IN || '7d' }
+      { expiresIn: '7d' }
     )
 
     res.status(201).json({
@@ -122,7 +122,7 @@ router.post('/login', validateRequest(loginSchema), async (req, res) => {
     const token = jwt.sign(
       { userId: user.id, email: user.email, role: user.role },
       process.env.JWT_SECRET!,
-      { expiresIn: process.env.JWT_EXPIRES_IN || '7d' }
+      { expiresIn: '7d' }
     )
 
     // Remove password from response
@@ -192,7 +192,7 @@ router.post('/refresh', authenticateToken, async (req, res) => {
     const token = jwt.sign(
       { userId: req.user!.id, email: req.user!.email, role: req.user!.role },
       process.env.JWT_SECRET!,
-      { expiresIn: process.env.JWT_EXPIRES_IN || '7d' }
+      { expiresIn: '7d' }
     )
 
     res.json({

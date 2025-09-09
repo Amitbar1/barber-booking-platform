@@ -4,20 +4,12 @@ import { PrismaClient } from '@prisma/client'
 
 const prisma = new PrismaClient()
 
-// Extend Request interface to include user
-declare global {
-  namespace Express {
-    interface Request {
-      user?: {
-        id: string
-        email: string
-        role: string
-        salonId?: string
-      }
-      prisma?: PrismaClient
-      io?: any
-    }
-  }
+// User type for authentication
+interface AuthenticatedUser {
+  id: string
+  email: string
+  role: string
+  salonId?: string
 }
 
 export const authenticateToken = async (req: Request, res: Response, next: NextFunction) => {
@@ -53,7 +45,7 @@ export const authenticateToken = async (req: Request, res: Response, next: NextF
       email: user.email,
       role: user.role.toString(),
       salonId: user.salons[0]?.id
-    }
+    } as AuthenticatedUser
 
     next()
   } catch (error) {
