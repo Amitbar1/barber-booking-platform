@@ -9,6 +9,7 @@ WORKDIR /app
 # Install dependencies based on the preferred package manager
 COPY package*.json ./
 COPY apps/api/package*.json ./apps/api/
+COPY apps/web/package*.json ./apps/web/
 RUN npm install
 
 # Rebuild the source code only when needed
