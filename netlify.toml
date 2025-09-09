@@ -1,6 +1,6 @@
 [build]
   base = "."
-  command = "cd apps/web && npm ci --force && npm run build"
+  command = "cd apps/web && rm -rf node_modules && npm install && npm run build"
   publish = "apps/web/dist"
 
 [build.environment]
