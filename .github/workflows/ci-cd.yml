@@ -10,6 +10,20 @@ jobs:
   test:
     runs-on: ubuntu-latest
     
+    services:
+      postgres:
+        image: postgres:15
+        env:
+          POSTGRES_PASSWORD: postgres
+          POSTGRES_DB: barber_booking_test
+        options: >-
+          --health-cmd pg_isready
+          --health-interval 10s
+          --health-timeout 5s
+          --health-retries 5
+        ports:
+          - 5432:5432
+
     steps:
     - name: Checkout code
       uses: actions/checkout@v4
@@ -29,6 +43,13 @@ jobs:
     - name: Run type checking
       run: npm run type-check
       
+    - name: Run tests
+      run: npm run test
+      env:
+        DATABASE_URL: postgresql://postgres:postgres@localhost:5432/barber_booking_test?schema=public
+        JWT_SECRET: test-jwt-secret
+        NODE_ENV: test
+        
     - name: Build applications
       run: npm run build
 
@@ -95,3 +116,20 @@ jobs:
       with:
         railway_token: ${{ secrets.RAILWAY_TOKEN }}
         service: ${{ secrets.RAILWAY_SERVICE }}
+
+  deploy-vercel:
+    needs: test
+    runs-on: ubuntu-latest
+    if: github.ref == 'refs/heads/main'
+    
+    steps:
+    - name: Checkout code
+      uses: actions/checkout@v4
+    
+    - name: Deploy to Vercel
+      uses: amondnet/vercel-action@v25
+      with:
+        vercel-token: ${{ secrets.VERCEL_TOKEN }}
+        vercel-org-id: ${{ secrets.VERCEL_ORG_ID }}
+        vercel-project-id: ${{ secrets.VERCEL_PROJECT_ID }}
+        vercel-args: '--prod'
