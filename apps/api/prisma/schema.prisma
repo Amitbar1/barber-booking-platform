@@ -1,0 +1,273 @@
+// Padel Pro Israel - Booking Platform Schema
+// learn more about it in the docs: https://pris.ly/d/prisma-schema
+
+generator client {
+  provider = "prisma-client-js"
+}
+
+datasource db {
+  provider = "postgresql"
+  url      = env("DATABASE_URL")
+}
+
+model User {
+  id        String   @id @default(cuid())
+  email     String   @unique
+  password  String
+  name      String
+  phone     String?
+  role      UserRole @default(ADMIN)
+  createdAt DateTime @default(now())
+  updatedAt DateTime @updatedAt
+
+  // Relations
+  salons    Salon[]
+  bookings  Booking[]
+
+  @@map("users")
+}
+
+model Salon {
+  id          String   @id @default(cuid())
+  name        String
+  slug        String   @unique
+  description String?
+  address     String
+  phone       String
+  email       String
+  website     String?
+  logo        String?
+  images      String[]
+  rating      Float    @default(0)
+  reviewCount Int      @default(0)
+  isActive    Boolean  @default(true)
+  createdAt   DateTime @default(now())
+  updatedAt   DateTime @updatedAt
+
+  // Branding & Customization
+  primaryColor    String?  @default("#38BDF8")  // Primary brand color
+  secondaryColor  String?  @default("#0EA5E9")  // Secondary brand color
+  accentColor     String?  @default("#FACC15")  // Accent color
+  backgroundColor String?  @default("#0F172A")  // Background color
+  textColor       String?  @default("#F1F5F9")  // Main text color
+  customFont      String?  @default("Inter")    // Custom font family
+  customCss       String?                       // Custom CSS overrides
+  brandLogo       String?                       // Brand logo URL
+  favicon         String?                       // Favicon URL
+  metaTitle       String?                       // SEO meta title
+  metaDescription String?                       // SEO meta description
+  customDomain    String?                       // Custom domain (future feature)
+
+  // Relations
+  ownerId     String
+  owner       User     @relation(fields: [ownerId], references: [id], onDelete: Cascade)
+  services    Service[]
+  bookings    Booking[]
+  customers   Customer[]
+  reviews     Review[]
+  workingHours WorkingHours[]
+  notifications Notification[]
+  bookingHolds BookingHold[]
+
+  @@map("salons")
+}
+
+model Service {
+  id          String   @id @default(cuid())
+  name        String
+  description String?
+  price       Float
+  duration    Int      // in minutes
+  category    String
+  images      String[]
+  isActive    Boolean  @default(true)
+  createdAt   DateTime @default(now())
+  updatedAt   DateTime @updatedAt
+
+  // Relations
+  salonId     String
+  salon       Salon    @relation(fields: [salonId], references: [id], onDelete: Cascade)
+  bookings    Booking[]
+  bookingHolds BookingHold[]
+
+  @@map("services")
+}
+
+model Customer {
+  id           String   @id @default(cuid())
+  name         String
+  phone        String
+  email        String?
+  dateOfBirth  DateTime?
+  notes        String?
+  totalSpent   Float    @default(0)
+  totalBookings Int     @default(0)
+  lastVisit    DateTime?
+  isActive     Boolean  @default(true)
+  createdAt    DateTime @default(now())
+  updatedAt    DateTime @updatedAt
+
+  // Relations
+  salonId      String
+  salon        Salon    @relation(fields: [salonId], references: [id], onDelete: Cascade)
+  bookings     Booking[]
+  reviews      Review[]
+
+  @@map("customers")
+}
+
+model Booking {
+  id          String        @id @default(cuid())
+  date        DateTime
+  time        String        // HH:MM format
+  status      BookingStatus @default(PENDING)
+  notes       String?
+  totalPrice  Float
+  createdAt   DateTime      @default(now())
+  updatedAt   DateTime      @updatedAt
+
+  // Relations
+  salonId     String
+  salon       Salon         @relation(fields: [salonId], references: [id], onDelete: Cascade)
+  serviceId   String
+  service     Service       @relation(fields: [serviceId], references: [id], onDelete: Cascade)
+  customerId  String
+  customer    Customer      @relation(fields: [customerId], references: [id], onDelete: Cascade)
+  userId      String?
+  user        User?         @relation(fields: [userId], references: [id], onDelete: SetNull)
+  notifications Notification[]
+  manageTokens ManageToken[]
+
+  @@map("bookings")
+}
+
+model Review {
+  id        String   @id @default(cuid())
+  rating    Int      // 1-5
+  comment   String?
+  isVisible Boolean  @default(true)
+  createdAt DateTime @default(now())
+  updatedAt DateTime @updatedAt
+
+  // Relations
+  salonId    String
+  salon      Salon    @relation(fields: [salonId], references: [id], onDelete: Cascade)
+  customerId String
+  customer   Customer @relation(fields: [customerId], references: [id], onDelete: Cascade)
+
+  @@map("reviews")
+}
+
+model WorkingHours {
+  id        String   @id @default(cuid())
+  dayOfWeek Int      // 0-6 (Sunday-Saturday)
+  dayName   String   // Hebrew day name
+  openTime  String   // HH:MM format
+  closeTime String   // HH:MM format
+  isClosed  Boolean  @default(false)
+  createdAt DateTime @default(now())
+  updatedAt DateTime @updatedAt
+
+  // Relations
+  salonId   String
+  salon     Salon    @relation(fields: [salonId], references: [id], onDelete: Cascade)
+
+  @@map("working_hours")
+}
+
+model Notification {
+  id        String             @id @default(cuid())
+  type      NotificationType
+  title     String
+  message   String
+  isRead    Boolean            @default(false)
+  createdAt DateTime           @default(now())
+
+  // Relations
+  salonId   String
+  salon     Salon              @relation(fields: [salonId], references: [id], onDelete: Cascade)
+  bookingId String?
+  booking   Booking?           @relation(fields: [bookingId], references: [id], onDelete: Cascade)
+
+  @@map("notifications")
+}
+
+// Enums
+enum UserRole {
+  ADMIN
+  SALON_OWNER
+  EMPLOYEE
+}
+
+enum BookingStatus {
+  PENDING
+  CONFIRMED
+  CANCELLED
+  COMPLETED
+  NO_SHOW
+}
+
+enum NotificationType {
+  BOOKING_CREATED
+  BOOKING_CONFIRMED
+  BOOKING_CANCELLED
+  BOOKING_REMINDER
+  PAYMENT_RECEIVED
+  REVIEW_RECEIVED
+}
+
+// OTP and Hold models for booking flow
+model OtpCode {
+  id          String   @id @default(cuid())
+  phone       String
+  code        String   // 6-digit code
+  attempts    Int      @default(0)
+  maxAttempts Int      @default(5)
+  expiresAt   DateTime
+  isUsed      Boolean  @default(false)
+  createdAt   DateTime @default(now())
+  updatedAt   DateTime @updatedAt
+
+  @@map("otp_codes")
+}
+
+model BookingHold {
+  id          String   @id @default(cuid())
+  salonId     String
+  serviceId   String
+  date        DateTime
+  time        String   // HH:MM format
+  customerName String?
+  customerPhone String?
+  expiresAt   DateTime
+  status      HoldStatus @default(RESERVED)
+  createdAt   DateTime @default(now())
+  updatedAt   DateTime @updatedAt
+
+  // Relations
+  salon       Salon    @relation(fields: [salonId], references: [id], onDelete: Cascade)
+  service     Service  @relation(fields: [serviceId], references: [id], onDelete: Cascade)
+
+  @@map("booking_holds")
+}
+
+model ManageToken {
+  id          String   @id @default(cuid())
+  bookingId   String
+  token       String   @unique
+  expiresAt   DateTime
+  isUsed      Boolean  @default(false)
+  createdAt   DateTime @default(now())
+
+  // Relations
+  booking     Booking  @relation(fields: [bookingId], references: [id], onDelete: Cascade)
+
+  @@map("manage_tokens")
+}
+
+enum HoldStatus {
+  RESERVED
+  CONFIRMED
+  EXPIRED
+  CANCELLED
+}

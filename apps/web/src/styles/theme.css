@@ -1,0 +1,94 @@
+:root {
+  /* Modern Dark Blue/Blue-Gray Palette - Dark Mode Only */
+  color-scheme: dark;
+
+  /* Core Palette - Dark Navy Blue Theme */
+  --bg: #0F172A;           /* Very dark navy blue - main background */
+  --surface: #1E293B;      /* Slightly lighter navy/blue-gray - cards, panels */
+  --text: #F1F5F9;         /* Light gray-white - highly readable text */
+  --text-muted: #94A3B8;   /* Soft gray-blue - secondary labels */
+  --border: #334155;       /* Dark blue-gray - subtle but visible lines */
+
+  /* Primary Colors - Sky Blue Accents */
+  --primary: #38BDF8;      /* Sky 400 - bright cyan/blue for main CTAs */
+  --onPrimary: #0F172A;    /* Same as background - ensures text on buttons is dark and readable */
+  --hover: #0EA5E9;        /* Sky 500 - stronger blue for hover states */
+  --focus: #7DD3FC;        /* Sky 300 - light blue for focus rings, visible on dark */
+
+  /* State Colors - Consistent with palette */
+  --success: #22c55e;      /* Green 500 */
+  --success-dark: #16a34a;
+  --success-light: #4ade80;
+  --success-text: #0F172A;
+
+  --warning: #eab308;      /* Amber 500 */
+  --warning-dark: #ca8a04;
+  --warning-light: #facc15;
+  --warning-text: #0F172A;
+
+  --error: #ef4444;        /* Red 500 */
+  --error-dark: #dc2626;
+  --error-light: #f87171;
+  --error-text: #0F172A;
+
+  --info: #38bdf8;         /* Sky 400 - same as primary */
+  --info-dark: #0ea5e9;
+  --info-light: #7dd3fc;
+  --info-text: #0F172A;
+
+  /* Surface Variations */
+  --surface-elevated: #334155;  /* Elevated surfaces - slightly lighter than surface */
+  --surface-hover: #475569;     /* Hover state for surfaces */
+  --text-subtle: #64748B;       /* Very subtle text */
+
+  /* Border Variations */
+  --border-hover: #475569;      /* Hover state for borders */
+  --divider: #334155;           /* Dividers use same as border */
+}
+
+/* Modern Animations */
+@keyframes fadeIn {
+  from { opacity: 0; transform: translateY(10px); }
+  to { opacity: 1; transform: translateY(0); }
+}
+
+@keyframes slideIn {
+  from { transform: translateX(-100%); }
+  to { transform: translateX(0); }
+}
+
+@keyframes pulse {
+  0%, 100% { opacity: 1; }
+  50% { opacity: 0.8; }
+}
+
+@keyframes glow {
+  0%, 100% { box-shadow: 0 0 5px var(--primary); }
+  50% { box-shadow: 0 0 20px var(--primary), 0 0 30px var(--primary); }
+}
+
+/* Smooth transitions for the entire application */
+html, body {
+  transition: background-color 200ms, color 200ms;
+}
+
+/* Global Button Styles */
+button {
+  transition: background-color 200ms, box-shadow 200ms, opacity 200ms;
+}
+
+button:disabled {
+  opacity: 0.5;
+  cursor: not-allowed;
+}
+
+/* Focus ring utility */
+.focus-ring:focus {
+  outline: none;
+  box-shadow: 0 0 0 2px var(--focus);
+}
+
+/* Hover utility for surfaces */
+.hover-surface:hover {
+  background-color: var(--surface-hover);
+}
