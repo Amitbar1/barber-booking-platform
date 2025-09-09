@@ -15,6 +15,7 @@
     "db:seed": "tsx src/scripts/seed.ts",
     "lint": "eslint . --report-unused-disable-directives --max-warnings 0",
     "type-check": "tsc --noEmit",
+    "test": "echo 'No tests configured yet'",
     "clean": "rm -rf dist .turbo"
   },
   "dependencies": {
