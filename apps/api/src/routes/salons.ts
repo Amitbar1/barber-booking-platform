@@ -44,7 +44,7 @@ const salonQuerySchema = Joi.object({
 // Get all salons (public)
 router.get('/', validateQuery(salonQuerySchema), async (req, res) => {
   try {
-    const { page, limit, search, category, city } = req.query as any
+    const { page, limit, search, city } = req.query as any
     const skip = (page - 1) * limit
 
     const where: any = {

@@ -124,7 +124,7 @@ router.post('/login', validateRequest(loginSchema), async (req, res) => {
     )
 
     // Remove password from response
-    const { password: _, ...userWithoutPassword } = user
+    const { password: _password, ...userWithoutPassword } = user
 
     res.json({
       message: 'Login successful',

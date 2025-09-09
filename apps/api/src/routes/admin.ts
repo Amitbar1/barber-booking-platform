@@ -278,7 +278,7 @@ router.get('/analytics', async (req, res) => {
   try {
     const { period = '30d' } = req.query as any
     
-    let dateFilter: any = {}
+    const dateFilter: any = {}
     const now = new Date()
     
     switch (period) {

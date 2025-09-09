@@ -1,7 +1,7 @@
 import { Router } from 'express'
 import Joi from 'joi'
 import { validateRequest, validateQuery, validateParams } from '../middleware/validation.js'
-import { authenticateToken, requireSalonAccess } from '../middleware/auth.js'
+import { authenticateToken } from '../middleware/auth.js'
 
 const router = Router()
 

@@ -1,6 +1,5 @@
 import { Router } from 'express'
 import jwt from 'jsonwebtoken'
-import { PrismaClient } from '@prisma/client'
 import { createSmsService } from '../services/smsAdapter.js'
 
 const router = Router()
